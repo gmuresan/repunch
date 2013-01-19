@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <div id="search-wrapper">
+        <div id="search-header">
+            <h2 class="orange_h2" id="search_for_retailers" xmlns="http://www.w3.org/1999/html">Search For Participating Retailers</h2>
+        </div>
+
+        <div id="search-left">
+            <div class="black_box">
+                <form action="." method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="submit">
+                </form>
+            </div>
+
+            <div id="search_results">
+                {% for retailer in retailers %}
+                    <div class="retailer_result">
+                        <div class="retailer_name"><a href="{% url retailer_info retailer_id=retailer.pk %}">{{ retailer.name|title }}</a></div>
+                        <div class="retailer_address">{{ retailer.address }}</div>
+                        <div class="retailer_category">{{ retailer.category }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+
+
+        </div>
+
+        <div id="search-right">
+            <div id="map" style="height:400px; width:500px;"></div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+
+{% block script %}
+
+    <script type="text/javascript">
+
+        var latlng = new google.maps.LatLng(40.762081, -74.015636);
+        var myOptions = {
+        zoom: 9,
+        center: latlng,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById("map"), myOptions);
+
+        {% if retailers %}
+            var bounds = new google.maps.LatLngBounds();
+
+            var lat;
+            var lng;
+            var name;
+            var point;
+            {% for retailer in retailers %}
+                lat = {{ retailer.lat }};
+                lng = {{ retailer.lng }};
+                name = "{{ retailer.name|title|safe }}";
+                point = new google.maps.LatLng(lat, lng);
+                bounds.extend(point);
+                var marker = new google.maps.Marker({
+                    position: point,
+                    map:map,
+                    title:name
+                });
+            {% endfor %}
+
+            map.fitBounds(bounds);
+
+            var listener = google.maps.event.addListenerOnce(map, "zoom_changed", function() {
+              if (map.getZoom() > 15) map.setZoom(15);
+            });
+
+        {% endif %}
+
+    </script>
+
+
+{% endblock %}
+

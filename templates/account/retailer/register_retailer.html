@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+    <div id="retailer_register_form">
+
+        You are making an administrative account for:
+        {{ retailer.name }}, {{ retailer.address }}, {{ retailer.city.name }}
+
+        If this is not the correct store, go back and reenter the registration code
+
+        <form name='retailer_register_form' action='{% url account.views.register_retailer %}' method='POST'>
+            {% csrf_token %}
+            <input type='hidden' value="{{ registration_code }}" name='registration_code'>
+            {{ form.as_p }}
+            <input type="submit">
+        </form>
+
+    </div>
+
+
+{% endblock %}

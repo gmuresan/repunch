@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+    <div id="edit_reward">
+        <form name="edit_reward" action="{% url edit_reward reward_id=reward.id %}" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit">
+        </form>
+    </div>
+    
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+    <h2 class="orange_h2">Manage Your Deals</h2>
+    
+    <div id="manage_deals">
+
+        <div class="orange_button_wrapper">
+            <a href='{% url retailer.views.add_reward_level %}' class="no_format">
+                <div id="add_reward_button" class="orange_box box_shadow">Add A Reward</div>
+            </a>
+        </div>
+
+        <br />
+        <br />
+        <div id="active_deals">
+            {% for reward in active_rewards %}
+                <div class="deal">
+                    Reward:     {{ reward.text|title }} <br />
+                    Punches:     {{ reward.punches }} <br />
+                    <div>
+                        <a href="{% url edit_reward reward_id=reward.id %}" class="no_format">
+                            <div class="box_shadow orange_box edit_reward_button">EDIT</div>
+                        </a>
+                    </div>
+
+                    <div>
+                        <a href="{% url delete_reward reward_id=reward.id %}" class="no_format">
+                            <div class="box_shadow orange_box edit_reward_button">DELETE</div>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+{% endblock %}

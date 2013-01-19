@@ -1,0 +1,37 @@
+{% block main %}
+    <img id="main_background" src="{{ STATIC_URL }}images/mainbg.png" />
+    <div id="mainbg">
+        <div id="videobg">
+            <iframe src="http://www.youtube.com/embed/rWl4y1-rdMw?rel=0;3&amp;autohide=1&amp;showinfo=0" frameborder="0" height="300" width="430"></iframe>
+        </div>
+        <div id="buttons">
+            <a href="#"><img src="{{ STATIC_URL }}images/droidmarket.png"></a>
+            <a href="#"><img src="{{ STATIC_URL }}images/itunes.png"></a>
+            <a href="{% url retailer_info %}"><img src="{{ STATIC_URL }}images/info.png"/></a>
+        </div>
+    </div>
+    <div id="signup-info">
+        <div id="main-bottom-first">
+            <ul>
+                <li>Enjoy having a loyalty card at all of your favorite merchants in one app</li>
+                <li>Earn bigger rewards with more purchases</li>
+                <li>Find out about new events, promotions, and more at retailers you actually care about</li>
+
+            </ul>
+        </div>
+        <div id="main-bottom-second">
+            <h2>It's Easy to Use!</h2>
+            <a class="no_format" href="#"><div id="sign-up-button" class="box_shadow orange_box">Learn More</div></a>
+            <h2>And Completely Free!</h2>
+        </div>
+        <div id="main-bottom-third">
+            <ul>
+                <li>Keep track of new offers on facebook, on your phone, or on our website</li>
+                <li>Share your punches on Facebook to let your friends know where you're shopping (and to earn extra punches!)</li>
+            </ul>
+        </div>
+        <br><br><br><br><br><br><br>
+        <h1>Rewards from ALL favorite merchants on 1 App!</h1>
+    </div>
+
+{% endblock %}

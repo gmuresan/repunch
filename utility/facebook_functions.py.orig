@@ -1,0 +1,99 @@
+import datetime
+import pdb
+import urlparse
+from django.contrib.auth import authenticate, login
+from django.core.urlresolvers import reverse
+from django.http import  HttpResponseRedirect
+from django.utils import simplejson as json
+import base64, hmac, hashlib, urllib2
+from account.models import UserAccount, UserUpdate
+from location.models import Zip
+import settings
+from tools import geocode
+
+def fb_request_decode(signed_request, fb_app_secret):
+        s = [s.encode('ascii') for s in signed_request.split('.')]
+
+        fb_sig = base64.urlsafe_b64decode((s[0] + '=' * (4 - len(s[0]) % 4)))
+        fb_data = json.loads(base64.urlsafe_b64decode(s[1] + '=' * (4 - len(s[1]) % 4)))
+        fb_hash = hmac.new(fb_app_secret, s[1], hashlib.sha256).digest()
+
+        sig_match = False
+        if fb_sig == fb_hash: sig_match = True
+
+        auth = False
+        if 'user_id' in fb_data: auth = True
+
+        return {
+            'fb_sig' : fb_sig,
+            'fb_data' : fb_data,
+            'fb_hash' : fb_hash,
+            'sig_match' : sig_match,
+            'auth' : auth,
+        }
+
+def fb_context_processor(request):
+    return {'facebook_app_id':settings.FACEBOOK_APP_ID, 'fb_auth_url':request.build_absolute_uri(reverse('fb_get_access_token')) }
+
+def fb_get_access_token(request):
+    #TODO: store state in session and make sure state matches in this view
+    if request.method == 'GET' and 'code' in request.GET:
+        code = request.GET['code']
+        state = request.GET['state']
+
+        response = urllib2.urlopen('https://graph.facebook.com/oauth/access_token?client_id='+settings.FACEBOOK_APP_ID\
+                            +'&redirect_uri='+request.build_absolute_uri(reverse('utility.facebook_functions.fb_get_access_token'))+'/'\
+                            +'&client_secret='+settings.FACEBOOK_APP_SECRET\
+                            +'&code='+code)
+        token_dict = urlparse.parse_qs(response.read())
+        access_token = token_dict['access_token'][0]
+        expires_seconds = token_dict['expires'][0]
+
+        user = authenticate(access_token=access_token, expires=expires_seconds)
+        if user is not None:
+            login(request, user)
+
+        return HttpResponseRedirect('/')
+
+
+class FacebookAuthenticationBackend:
+    def authenticate(self, access_token, expires):
+        fields = "first_name,last_name,email,gender,id"
+
+        response = urllib2.urlopen('https://graph.facebook.com/me?fields='+fields+'&access_token='+access_token)
+        profile = json.loads(response.read())
+        id = profile['id']
+
+        try:
+            user = UserAccount.objects.get(facebook_uid=id)
+
+        except UserAccount.DoesNotExist:
+            user = UserAccount()
+            user.facebook_uid = id
+            user.first_name = profile['first_name']
+            user.last_name = profile['last_name']
+            user.gender = profile['gender']
+            user.email = profile['email']
+            user.username = profile['email']
+
+            user.type = 'user'
+            user.set_unusable_password()
+            user.save()
+
+            joinUpdate = UserUpdate(action='join', user=user)
+            joinUpdate.save()
+
+
+        user.access_token = access_token
+        user.token_expiration_date = datetime.datetime.now() + datetime.timedelta(seconds=int(expires))
+        pdb.set_trace()
+        user.save()
+        return user
+
+    def get_user(self, user_id):
+        try:
+            return UserAccount.objects.get(pk=user_id)
+        except UserAccount.DoesNotExist:
+            return None
+
+

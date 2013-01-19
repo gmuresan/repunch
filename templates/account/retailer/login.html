@@ -1,0 +1,24 @@
+
+{% extends 'base.html' %}
+
+{% block main %}
+
+    <div id="retailer-login-page" style="background-image: url({{ STATIC_URL }}images/horizontal.png)">
+        <h2 class="orange_h2">RETAILER LOG IN</h2>
+        <br>
+        <div id="retailer-login-form">
+
+            <p>
+                Log in to manage your account
+            </p>
+
+            <form action="{% url login %}" method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Log In">
+            </form>
+            <a href="{% url reset_password %}" style="text-align:center">Forgot Password?</a>
+        </div>
+    </div>
+
+{% endblock %}

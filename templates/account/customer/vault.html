@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% load retailer_tags %}
+{% block main %}
+    <div id="vaultcontent" class="clearfix">
+        <section id="vaultleft">
+            <div id="userStats" class="clearfix">
+                <div class="pic">
+                    <img src="https://graph.facebook.com/{{ request.user.facebook_uid }}/picture?type=large" width="150" height="180" />
+                </div>
+
+                <div class="data">
+                    <h1>{{ request.user.first_name }} {{ request.user.last_name }}</h1>
+                    <!--h3>San Francisco, CA</h3-->
+                    <div class="socialMediaLinks">
+                        <!--a href="#"><img src="{{ STATIC_URL }}images/twitter.png"/></a>
+                        <a href="#"><img src="{{ STATIC_URL }}images/facebook.png" /></a-->
+                    </div>
+                    <div class="sep"></div>
+                    <ul class="numbers clearfix">
+                        <li><strong>{{ num_punches }}</strong>Punches</li>
+                        <li><strong>{{ num_retailers }}</strong>Retailers</li>
+                        <li><strong>1</strong>Earned Rewards</li>
+                        <li class="nobrdr"><strong>1</strong>Redeemed Rewards</li>
+                    </ul>
+                </div>
+            </div>
+            <div id="vault">
+                <div class="head"><h1>Vault</h1></div>
+                {% if retailers %}
+                    {% for retailer, info in retailers.items %}
+                        <div class="retailer_punches_deals">
+                            <h3>{{ retailer.name|title }}</h3>
+                            {% for i in info.max|get_range %}
+
+                                {% if i < info.punches %}
+                                    {% if i in info.levels %}
+                                        <span class="punch-circle green-punch-circle"></span>
+                                    {% else %}
+                                        <span class="punch-circle black-punch-circle"></span>
+                                    {% endif %}
+                                {% else %}
+                                    {% if i in info.levels %}
+                                        <span class="punch-circle red-punch-circle"></span>
+                                    {% else %}
+                                        <span class="punch-circle white-punch-circle"></span>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                            <br />
+                            <h4>Earned Rewards:</h4>
+                            {% if info.earned_rewards %}
+                                {% for reward in info.earned_rewards %}
+                                    {% if reward in info.earned_rewards %}
+                                        <div class="vault_reward_display earned_reward">{{ reward.text|upper }}</div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                You haven't earned any rewards for this retailer
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div id="vault_mobile_links">
+                        <p>It looks like you haven't been re:punched yet. To get started, download our mobile app for your platform.
+                            Then <a href="{% url retailer_search %}">find</a> retailers near you and get re:punched.</p>
+                        <a href="#"><img src="{{ STATIC_URL }}images/droidmarket.png"></a>
+                        <a href="#"><img src="{{ STATIC_URL }}images/itunes.png"></a>
+                    </div>
+                {% endif %}
+            </div>
+        </section>
+
+        <section id="vaultright">
+            <div class="gcontent">
+                <div class="head"><h1>Updates</h1></div>
+                <div class="boxy">
+                    {% autoescape off %}
+                        <ul>
+                            {% for update in updates %}
+                                <li>{{ update }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endautoescape %}
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+

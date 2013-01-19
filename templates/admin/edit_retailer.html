@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+    <div id="retailer_info">
+        {{ retailer.name }}
+        {{ retailer.description }}
+        {{ retailer.hours }}
+        {{ retailer.address }}
+        {{ retailer.city }}
+        {{ retailer.state }}
+        {{ retailer.zip.code }}
+        {{ retailer.point }}
+        Password: "{{ retailer.admin_password }}"
+
+        Registration Code: {{ retailer.registration_code.code }}
+
+        <br />
+        <br />
+
+        {% for reward in rewards %}
+            {{ reward.punches }}
+            {{ reward.text }}<br />
+
+        {% endfor %}
+
+        <a href='{% url add_reward %}'>Add A Reward Level</a>
+
+        <br/>
+        <br/>
+
+        {% for code in codes %}
+            {{ code.code }}
+            {% if code.used %}
+                used by {{ code.user.first_name }}
+            {% endif %}
+            <br/>
+        {% endfor %}
+
+        <a href='{% url retailer.views.add_code id=retailer.id %}'>Add A Code</a>
+
+
+
+    </div>
+
+
+
+
+{% endblock %}

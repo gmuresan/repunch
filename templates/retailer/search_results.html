@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+    <div style="float:left;clear: both;">
+
+
+    {% for retailer in retailers %}
+
+        {{ retailer }}
+
+    {% endfor %}
+
+
+    </div>
+
+
+
+{% endblock %}

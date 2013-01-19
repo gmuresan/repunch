@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+    {% if not request.user.is_authenticated %}
+        {% include 'info/index.html' %}
+    {% else %}
+        {% include 'account/customer/vault.html' %}
+    {% endif %}
+
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        if( window.location.hash == '#_=_' ) {
+            window.location.hash = '';
+            history.pushState('', document.title, window.location.pathname); // nice and clean
+            e.preventDefault(); // no page reload
+        }
+    </script>
+
+{% endblock %}

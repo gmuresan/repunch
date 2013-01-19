@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <div id="retailerinfocontent" class="clearfix">
+        <section id="retailerinfotop">
+            <div id="retailerinfo" class="clearfix">
+                <div class="pic">
+                    <img src="{{ STATIC_URL }}{{ retailer.main_image }}" width="150" height="150" />
+                </div>
+                <div class="wrapper">
+                    <div class="info">
+                        <h1>{{ retailer.name }}</h1>
+                        <div class="info1">
+                            <h2>Address:</h2><h3>{{ retailer.address }}</h3>
+                            <h3>{{ retailer.city }} {{ retailer.zip }}</h3></br>
+                            <h2>Category: <h3>{{ retailer.category }}</h3></h2>
+                        </div>
+                        <div class="info2">
+                            <h2>Phone:</h2><h3>{{ retailer.phone }}</h3><br>
+                            <h2>Hours: <h3>{{ retailer.hours }}</h3></h2><br>
+                        </div>
+                    </div>
+                    <div class="map">
+                        <div id="map_canvas" style="width:600px; height:250px"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <br>
+    <div id="info-wrapper">
+        <div id="info-bottom-left">
+            <div class="new_black">Promotions</div>
+            <div id="info-bottom-leftc">
+                    <br><b>Current Level:</b> 2 <br>
+                    <hr>
+                    <b>Free Boba</b><br>
+                    Level: 1<br>
+                    Unlocked
+                    <hr>
+                    <b>Free Milk Tea</b><br>
+                    Level: 2<br>
+                    Unlocked
+                    <hr>
+                    <b>Free Entree</b><br>
+                    Level: 3<br>
+                    Unlocked
+                    <hr>
+            </div>
+        </div>
+        <div id="info-bottom-right">
+            <div class="new_black">About Us</div>
+                <blockquote><span>{{ retailer.description }}</span></blockquote><br><br>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block script %}
+
+    <script type="text/javascript">
+
+        var place = new google.maps.LatLng({{ retailer.lat }}, {{ retailer.lng }})
+
+        var myOptions = {
+            center: place,
+            zoom: 16,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var map = new google.maps.Map(document.getElementById("map_canvas"),
+            myOptions);
+
+            var marker = new google.maps.Marker({
+            position: place,
+            map: map,
+            title:"{{ retailer.name }}"
+            });
+
+    </script>
+
+{% endblock%}

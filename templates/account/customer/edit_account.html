@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+    <div id="edit_user_page">
+        <h2 class="orange_h2">Account Settings</h2>
+
+        <form action="." method=POST>
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="fieldWrapper">
+                    {{ field.label_tag }}:
+                    <div class="edit_user_form_helptext">
+                        {{ field.help_text }}
+                    </div>
+                    <div class="edit_user_form_input">
+                        {{ field }}
+                    </div>
+                </div>
+            {% endfor %}
+
+            <input value="Save Settings" type="submit" />
+        </form>
+    </div>
+
+{% endblock %}

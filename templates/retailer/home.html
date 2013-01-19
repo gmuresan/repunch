@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <h2 class='orange_h2' id="welcome">Welcome</h2>
+
+    <p>
+        Is it time to update your offers, review your clients' punches, or check on your facebook posts?
+    </p>
+
+    <div id="retailercontent" class="clearfix">
+        <section id="retailertop">
+            <div id="retailerStats" class="clearfix">
+                <div class="pic">
+                    <img src="{{ MEDIA_URL }}{{ retailer.main_image }}" width="220" height="250" />
+                </div>
+                <div class="wrapper">
+                    <div class="info">
+                        <h1>{{ retailer.name }}</h1>
+                        <div class="info1">
+                            <h2>Address:</h2><h3>{{ retailer.address }}</h3>
+                            <h3>{{ retailer.city }} {{ retailer.zip }}</h3></br>
+                        </div>
+                        <div class="info2">
+                            <h2>Phone:</h2><h3>{{ retailer.phone }}</h3><br>
+                        </div>
+                        <div class="info3">
+                            <h2>Hours: <h3>{{ retailer.hours }}</h3></h2><br>
+                        </div>
+                        <div class="info4">
+                            <h2>Category: <h3>{{ retailer.category }}</h3></h2>
+                        </div>
+                        <div class="info5">
+                            <h2>About Us: <h3>{{ retailer.description }}</h3></h2><br>
+                        </div>
+                        <div class="info6">
+                            <a href="{% url edit_retailer_info %}" class="no_format">
+                                <div class="box_shadow orange_box" id="edit_store_button">Edit</div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="data">
+                        <ul class="numbers clearfix">
+                            <li><strong>{{ num_punches }}</strong>Punches</li>
+                            <li><strong>{{ num_rewards_earned }}</strong>Deals Earned</li>
+                            <li><strong>{{ num_rewards_redeemed }}</strong>Deals Redeemed</li>
+                            <li class="nobrdr"><strong>{{ num_facebook_posts }}</strong>Facebook Posts</li>
+                        </ul>
+                        <div class="data1">
+                            <a href="{% url retailer.views.view_data %}" class="no_format">
+                                <div class="box_shadow orange_box" id="view_data_button">Details</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="retailer_home">
+        <div id="retailer_home_left">
+            <div class="head"><h1>Current Rewards</h1></div>
+            <div id="current_rewards">
+
+                {% for reward in rewards %}
+                    <div class="deal">
+                        Reward:     {{ reward.text|title }} <br />
+                        Punches:     {{ reward.punches }} <br />
+                        <a href="{% url edit_reward reward_id=reward.id %}" class="no_format">
+                            <div class="box_shadow orange_box edit_reward_button">EDIT</div>
+                        </a>
+
+                        <a href="{% url delete_reward reward_id=reward.id %}" class="no_format">
+                            <div class="box_shadow orange_box edit_reward_button">DELETE</div>
+                        </a>
+                    </div>
+                {% endfor %}
+                <div class="spacer"></div>
+                <a href='{% url retailer.views.add_reward_level %}' class="no_format">
+                    <div id="add_reward_button" class="orange_box box_shadow">Add Reward</div>
+                </a>
+            </div>
+        </div>
+        <div id="retailer_home_right">
+            <div class="head"><h1>Employees</h1></div>
+                <div id="retailer_employees">
+                    {% for employee in employees %}
+                        <div class="employee_info">
+                            {{ employee.first_name }} &nbsp; {{ employee.last_name }} &nbsp; {{ employee.username }}
+                            <a href="#">Edit</a>
+                            <a href="#">Delete</a>
+                        </div>
+                    {% endfor %}
+
+                    <a href="{% url add_employee %}" class="no_format">
+                        <div class="box_shadow orange_box" id="add_employee_button">Add Employee</div>
+                    </a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

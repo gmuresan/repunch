@@ -1,0 +1,56 @@
+<div id="logo_nav">
+	<div id="logo">
+        <a href="/">
+            <h1 id="re">re</h1>
+            <div id="circles">
+                <span class="small_circle" id="black_circle"></span>
+                <span class="small_circle" id="white_circle"></span>
+            </div>
+            <h1 id="punch">punch</h1>
+        </a>
+	</div>
+
+    {% if not request.user.is_authenticated %}
+        <div id="login-links">
+            <a id="facebook-login" href="https://www.facebook.com/dialog/oauth?client_id={{ facebook_app_id }}&redirect_uri={{ fb_auth_url }}/&scope=email&state=state">
+                <img src="{{ STATIC_URL }}images/facebook_signin.png" />
+            </a>
+            <a id="retailer-login-link" href="{% url login %}" style="color:#FFFFFF;"><div id="retailer-login-link-text">Retailer Login Page</div></a>
+        </div>
+    {% endif %}
+    {% if request.user.is_authenticated %}
+        <div id="logged_in_info">
+            {% if request.user.type == 'user' %}
+                Welcome {{ request.user.first_name }} <br />
+            {% endif %}
+            {% if request.user.type == 'retailer' %}
+                Welcome {{ request.user.retailer.name }} <br />
+            {% endif %}
+            <a href="{% url edit_account %}"> Settings </a><br />
+            <a href="{% url account.views.logoutUser %}">Log Out</a> <br />
+        </div>
+    {% endif %}
+
+	<div id="nav-bar">
+		<nav>
+			<ul id="nav">
+                <li><a href="{% url views.index %}">Home</a></li>
+                {% if request.user.is_authenticated %}
+                    {% if request.user.type == 'user' %}
+                        <!--li><a href="{% url account.views.vault %}">Vault</a></li-->
+                    {% endif %}
+                    {% if request.user.type == 'retailer' %}
+                        <li><a href="{% url manage_deals %}">Manage Deals</a></li>
+                        <li><a href="{% url view_data %}">View Data</a></li>
+                    {% endif %}
+                {% else %}
+                    <li><a href="{% url retailer_info %}">Retailer Info</a></li>
+                {% endif %}
+                {% if request.user.type != 'retailer' %}
+                    <li><a href="{% url retailer_search %}">Participating Retailers</a></li>
+                {% endif %}
+                <li><a href="#">FAQs</a></li>
+			</ul>
+		</nav>
+	</div>
+</div>

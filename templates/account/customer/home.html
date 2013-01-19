@@ -1,0 +1,36 @@
+{% load retailer_tags %}
+
+<div id="user-homepage-content">
+    <div id="consumer-links">
+        <div>
+            <a href='{% url account.views.vault %}' class="no_format">
+                <div id="view-vault-button" class="box_shadow orange_box">
+                    view your vault
+                </div>
+            </a>
+            <br />
+            See your re:punch offers
+        </div>
+        <div>
+            <a href='{% url retailer.views.find_retailers %}' class="no_format">
+                <div id="view-retailers-button" class="box_shadow orange_box">
+                    view participating retailers
+                </div>
+            </a>
+            <br />
+            See other re:punch retailers in your area
+        </div>
+    </div>
+
+    <div id="vault_updates">
+        <h3>UPDATES:</h3>
+        {% autoescape off %}
+            <ul>
+                {% for update in updates %}
+                    <li>{{ update }}</li>
+                {% endfor %}
+            </ul>
+        {% endautoescape %}
+    </div>
+    <div class="spacer"></div>
+</div>

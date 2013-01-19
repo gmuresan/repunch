@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+    <div id="infopage">
+        <ul class="infolist">
+            <li class="infois">
+                <h3>Easy to Implement</h3>
+                <ul class="ulb">
+                    <li>Absolutely Free</li>
+                    <li>Customize the deals you offer to loyal customers and alter them at any time</li>
+                    <li>We provide you a Repunch Smartphone and marketing materials</li>
+                    <li>We are available for support 24/7</li>
+                </ul>
+            </li>
+
+            <li class="infois">
+                <h3>Communicate With Your Customers</h3>
+                <ul class="ulb">
+                    <li>Message your customers about special products, promotions, events, etc.</li>
+                    <li>Enjoy the attention as your patrons post their activities at your store on Facebook</li>
+                    <li>Create incentives to bring customers in at certain times of day</li>
+                    <li>Monitor statistics relating to all Repunch activity at your business</li>
+                </ul>
+
+            </li>
+        </ul>
+    </div>
+
+    <div id="retailer-info-wrapper">
+
+        <div id="retailer-info-right" style="background-image: url({{ STATIC_URL }}images/horizontal.png)">
+            <div id="retailer-info-left">
+                <div class="new_black">fill in to get more info!</div>
+                <div id="retailer-info-form">
+                    <form action="{% url views.retailers %}" method="POST">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="field_wrapper">
+                                <span>{{ field.label_tag }}</span>
+                                {{ field }}<br>
+                            </div>
+                        {% endfor %}<br>
+                        <input type="submit" value="submit">
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,76 @@
+
+<!doctype html>
+
+<!-- Paul Irish's technique for targeting IE, modified to only target IE6, applied to the html element instead of body -->
+<!--[if lt IE 7 ]><html lang="en" class="no-js ie6"><![endif]-->
+<!--[if (gt IE 6)|!(IE)]><!--><html lang="en" class="no-js"><!--<![endif]-->
+
+<head>
+	<!-- simplified character encoding -->
+	<meta charset="utf-8">
+
+	<title>RePunch</title>
+	<meta name="description" content="Repunch">
+	<meta name="author" content="">
+    <meta http-equiv="Cache-control" content="public">
+
+	<!-- Delete these two icon references once you've placed them in the root directory with these file names -->
+	<!-- favicon 16x16 -->
+	<link rel="shortcut icon" href="/favicon.ico">
+	<!-- apple touch icon 57x57 -->
+	<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+	<link rel="stylesheet" href="{{ STATIC_URL }}css/main.css" type="text/css">
+
+    <!-- Modernizr for feature detection of CSS3 and HTML5; must be placed in the "head" -->
+    <script src="{{ STATIC_URL }}js/modernizr-2.0.6.js"></script>
+    <script src="{{ STATIC_URL }}js/pixastic.custom.js"></script>
+    <script src="{{ STATIC_URL }}js/bevel.js"></script>
+    <script src="{{ STATIC_URL }}js/scripts.js"></script>
+
+    {% include 'utility/load_facebook_js.html' %}
+    {% include 'utility/load_gmaps_js.html' %}
+    {% include 'utility/load_google_viz.html' %}
+
+</head>
+
+
+
+<body>
+
+    <div id="container">
+        <header>
+            {% include 'header.html' %}
+        </header>
+        <div id="main">
+            {% block main %}{% endblock %}
+            <div class="spacer"></div>
+        </div>
+        <footer>
+            {% include 'footer.html' %}
+        </footer>
+    </div>
+
+
+
+	<!--script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script-->
+	
+	<script type="text/javascript">
+	
+	  /*var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-26342130-1']);
+	  _gaq.push(['_trackPageview']);
+	
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+	    */
+	</script>
+    {% block script %}{% endblock %}
+
+</body>
+</html>
+
+

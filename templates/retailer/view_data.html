@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+    <h2 class="orange_h2">CUSTOMER REPORt FOR JUNE 25, 2012</h2>
+    <br />
+    <br />
+
+    <div id="TOP_chart" style="width: 900px; height: 275px; float:left;"></div>
+    <div id="frequency_chart" style="width: 900px; height: 275px; float:left;"></div>
+    <div id="zip_chart" style="width: 450px; height: 275px; float:left;"></div>
+    <div id="gender_chart" style="width: 450px; height: 275px; float:left;"></div>
+    <div id="age_chart" style="width: 450px; height: 275px; float:left;"></div>
+    <div id="reward_chart" style="width: 450px; height: 275px; float:left;"></div>
+
+
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawCharts);
+
+      function drawCharts() {
+          drawZipPie();
+          drawGenderPie();
+          drawAgePie();
+          drawRewardPie();
+          drawTOPChart();
+          drawCustomerFreqChart();
+      }
+
+      function drawZipPie() {
+        var data = google.visualization.arrayToDataTable([
+          ['Zip Code', 'Number of Customers'],
+          ['48107', 11],
+          ['48104', 13],
+          ['48105', 14],
+          ['48106', 17],
+          ['48109',  7],
+          ['Unknown', 9]
+        ]);
+
+        var options = {
+          title: 'Customer Zip Code Distribution'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('zip_chart'));
+        chart.draw(data, options);
+      }
+
+    function drawGenderPie() {
+        var data = google.visualization.arrayToDataTable([
+            ['Gender', '# of Customers'],
+            ['Male', 11],
+            ['Female', 13]
+        ]);
+
+        var options = {
+            title: 'Customer Gender Distribution'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('gender_chart'));
+        chart.draw(data, options);
+    }
+
+    function drawRewardPie() {
+        var data = google.visualization.arrayToDataTable([
+            ['Status', 'Number'],
+            ['Redeemed', 28],
+            ['Awarded', 23]
+        ]);
+
+        var options = {
+            title: 'Percent of Rewards Redeemed'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('reward_chart'));
+        chart.draw(data, options);
+    }
+
+    function drawAgePie() {
+        var data = google.visualization.arrayToDataTable([
+            ['Age', 'Number of Customers'],
+            ['<18', 11],
+            ['25-29', 13],
+            ['30-40', 8],
+            ['40-55', 7],
+            ['55-65', 5],
+            ['65+', 2]
+        ]);
+
+        var options = {
+            title: 'Customer Age Distribution'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('age_chart'));
+        chart.draw(data, options);
+    }
+
+    function drawTOPChart() {
+        var data = google.visualization.arrayToDataTable([
+            ['Hour of Day', 'Number of Customers Punched'],
+            ['9am',  8],
+            ['10am',  9],
+            ['11am',  4],
+            ['noon',  7],
+            ['1pm',  6],
+            ['2pm',  5],
+            ['3pm',  4],
+            ['4pm',  8],
+            ['5pm',  14],
+            ['6pm',  13],
+            ['7pm',  12],
+            ['8pm',  11],
+            ['9pm',  8]
+        ]);
+
+        var options = {
+            title: 'Number of Customers by Hour',
+            hAxis: {title: 'Hour', titleTextStyle: {color: 'red'}}
+        };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('TOP_chart'));
+        chart.draw(data, options);
+    }
+
+    function drawCustomerFreqChart() {
+        var data = google.visualization.arrayToDataTable([
+            ['Frequency', 'Number of Customers Punched'],
+            ['0-5',  8],
+            ['5-10',  9],
+            ['10-15',  4],
+            ['15-20',  7],
+            ['20-25',  6],
+            ['25-30',  5],
+            ['30+',  4]
+        ]);
+
+        var options = {
+            title: 'Total Number of Punches vs Number of Customers',
+            hAxis: {title: 'Number of visits', titleTextStyle: {color: 'red'}}
+        };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('frequency_chart'));
+        chart.draw(data, options);
+    }
+
+
+
+    </script>
+
+
+{% endblock %}

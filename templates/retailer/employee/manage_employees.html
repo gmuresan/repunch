@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    {% for employee in employees %}
+        <p>
+            Username: {{ employee.username }} <br/>
+            First Name {{ employee.first_name }} <br/>
+            Last Name: {{ employee.last_name }} <br/>
+        </p>
+    {% endfor %}
+    
+
+
+
+{% endblock %}

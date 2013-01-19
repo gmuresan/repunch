@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+    <h2 class="orange_h2" id="participating_retailers">Participating Retailers</h2>
+    <div id="search_summary">
+        View participating re:punch retailers by
+        Retail Sector OR Distance: User's Zip Code >
+    </div>
+    <div style="float:left;clear:both;">
+
+        <div id="map" style="width:400px; height:400px;">Please enable Javascript</div>
+
+        <div class="retailer_distance_display">
+            {% for retailer in retailers %}
+                <div class="retailer_distance_container">
+                    <div class="retailer_name">
+                        {{ retailer|title }}
+                    </div>
+                    <div class="retailer_distance">
+                        1.08 miles
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div id="retailer_updates">
+        <h3>RETAILER UPDATES:</h3>
+        <ul>
+            <li>Test1</li>
+            <li>Test2</li>
+            <li>Test3</li>
+        </ul>
+    </div>
+
+
+
+{% endblock %}
+
+{% block script %}
+
+
+
+    <script type="text/javascript">
+
+        var latlng = new google.maps.LatLng(1,1);
+        var myOptions = {
+        zoom: 9,
+        center: latlng,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById("map"), myOptions);
+
+    </script>
+
+
+{% endblock %}
